@@ -121,8 +121,12 @@ export function convertWeiValue(value: string) {
 export async function handleTransferNotifications(): Promise<void> {
   const lastBlockNotified = getLastBlockNotified()
   if (lastBlockNotified < 0) {
-    // Firebase not yet ready
-    return
+    // Set lastBlockNotified to current block numbert
+    const res: any = await query('module=block&action=eth_block_number')
+    console.info(res)
+    const block = parseInt(res.result, 16)
+    console.info(block)
+    setLastBlockNotified(block)
   }
 
   const { goldTokenAddress, stableTokenAddress } = await getTokenAddresses()
