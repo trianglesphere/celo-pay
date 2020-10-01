@@ -1,16 +1,12 @@
 import express from 'express'
-import * as admin from 'firebase-admin'
 import {
   ENVIRONMENT,
-  FIREBASE_DB,
-  FIREBASE_PROJECT_ID,
-  getFirebaseAdminCreds,
   PORT,
   VERSION,
-  WEB3_PROVIDER_URL,
+  // WEB3_PROVIDER_URL,
 } from './config'
-import { getLastBlockNotified, initializeDb as initializeFirebaseDb } from './firebase'
-import { exchangePolling, notificationPolling } from './polling'
+import { getLastBlockNotified } from './firebase'
+import { notificationPolling } from './polling'
 
 console.info('Service starting with environment, version:', ENVIRONMENT, VERSION)
 const START_TIME = Date.now()
@@ -51,29 +47,7 @@ app.listen(PORT, () => {
 })
 
 /**
- * Initialize Firebase Admin SDK
- */
-console.info('Initializing Firebase')
-admin.initializeApp({
-  credential: getFirebaseAdminCreds(admin),
-  databaseURL: FIREBASE_DB,
-  projectId: FIREBASE_PROJECT_ID,
-})
-initializeFirebaseDb()
-
-/**
  * Start polling the blockscout api
  */
 console.info('Starting Blockscout polling')
 notificationPolling.run()
-
-if (!WEB3_PROVIDER_URL) {
-  console.info('No Web3 provider found. Skipping exchange polling.')
-  console.info('Note that you will need to manually set contract addresses.')
-} else {
-  /**
-   * Start polling the Exchange contract
-   */
-  console.info('Starting Exchange contract polling')
-  exchangePolling.run()
-}
