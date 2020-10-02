@@ -121,12 +121,13 @@ export function convertWeiValue(value: string) {
 export async function handleTransferNotifications(): Promise<void> {
   const lastBlockNotified = getLastBlockNotified()
   if (lastBlockNotified < 0) {
-    // Set lastBlockNotified to current block numbert
+    // Set lastBlockNotified to current block number
     const res: any = await query('module=block&action=eth_block_number')
     console.info(res)
     const block = parseInt(res.result, 16)
-    console.info(block)
-    setLastBlockNotified(block)
+    console.info(block - 1)
+    setLastBlockNotified(block - 1)
+    return
   }
 
   const { goldTokenAddress, stableTokenAddress } = await getTokenAddresses()
