@@ -84,6 +84,17 @@ export function notifyForNewTransfers(
   lastBlockNotified: number
 ): Promise<void[]> {
   const results = new Array<Promise<void>>(transfers.length)
+  
+  console.log('checking transfers')
+  // this is a mock call for testing
+  //  sendCeloPayNotification(
+  //   '0xa2c09ca0a3902ca5e43017159b975c5780cfd4f7',
+  //   '10',
+  //   Currencies.DOLLAR,
+  //   removeEmptyValuesFromObject({comment:'HELLO'})
+  // )
+
+
   for (let i = 0; i < transfers.length; i++) {
     const t = transfers[i]
     // Skip transactions for which we've already sent notifications

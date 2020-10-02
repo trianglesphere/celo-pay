@@ -7,9 +7,14 @@ import {
 } from './config'
 import { getLastBlockNotified } from './firebase'
 import { notificationPolling } from './polling'
+import { localdb, addressHasComment } from './database'
+
+
 
 console.info('Service starting with environment, version:', ENVIRONMENT, VERSION)
 const START_TIME = Date.now()
+
+// const localdb:any = {}
 
 /**
  * Create and configure Express server
@@ -32,6 +37,27 @@ app.get('/status', (req: any, res: any) => {
     serviceStartTime: new Date(START_TIME).toUTCString(),
     serviceRunDuration: Math.floor((Date.now() - START_TIME) / 60000) + ' minutes',
   })
+})
+app.get('/watch_account', (req: any, res: any) => {
+  if (!(req.query.address in localdb) ){
+    
+    localdb[req.query.address] = [{
+      comment:req.query.comment, 
+      done:false
+    }]
+    res.status(200).json({status:'ok', ...req.query})
+    return
+  }
+  if (!addressHasComment(localdb[req.query.address], req.query.comment)){
+    localdb[req.query.address].push({
+      comment:req.query.comment, 
+      done:false
+    })
+    res.status(200).json({status:'ok', ...req.query})
+    return
+  } else {
+    res.status(200).json({status:'Order already registered'})
+  }
 })
 app.get('/_ah/start', (req: any, res: any) => {
   res.status(200).end()
