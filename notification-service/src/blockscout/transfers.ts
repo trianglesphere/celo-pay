@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import fetch from 'node-fetch'
 import { BLOCKSCOUT_API } from '../config'
-import { getLastBlockNotified, sendPaymentNotification, setLastBlockNotified } from '../firebase'
+import { getLastBlockNotified, sendCeloPayNotification, setLastBlockNotified } from '../firebase'
 import { flat, getTokenAddresses, removeEmptyValuesFromObject } from '../util/utils'
 import { Log, Response, Transfer } from './blockscout'
 import { decodeLogs } from './decode'
@@ -97,7 +97,7 @@ export function notifyForNewTransfers(
       blockNumber: String(t.blockNumber),
       timestamp: String(t.timestamp),
     }
-    const result: Promise<void> = sendPaymentNotification(
+    const result: Promise<void> = sendCeloPayNotification(
       t.recipient,
       convertWeiValue(t.value),
       t.currency,

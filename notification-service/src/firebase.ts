@@ -9,9 +9,6 @@ export function getLastBlockNotified() {
   return lastBlockNotified
 }
 
-const watching: Map<string,Set<string>>  = new Map()
-// TODO: CHeck about address case
-watching.set('0xa2c09ca0a3902ca5e43017159b975c5780cfd4f7', new Set(["XKCD", "XKCD2"]))
 
 
 export function setLastBlockNotified(newBlock: number) {
@@ -24,18 +21,25 @@ export function setLastBlockNotified(newBlock: number) {
   lastBlockNotified = newBlock
 }
 
-export async function sendPaymentNotification(
+
+const watching: Map<string,Set<string>>  = new Map()
+// TODO: Blockscout returns lowercase address. Should programatically check that upper/lower/checksum case is correctly set.
+watching.set('0xa2c09ca0a3902ca5e43017159b975c5780cfd4f7', new Set(["XKCD", "XKCD2"]))
+
+
+export async function sendCeloPayNotification(
   address: string,
   amount: string,
   currency: Currencies,
   data: { [key: string]: string }
 ) {
   console.error(`GOT SEND PAYMENT NOTIFICATION. address: ${address}. comment: ${data.comment}`)
-  // First filter on addresses
+  // Lookup address, then waiting set
   const UIDS = watching.get(address)
   if (UIDS) {
     if (data.comment && UIDS.has(data.comment)) {
       console.error("GOT GOOD COMMENT TO SEND INFO ON")
+      // Send webhook here
     } else {
       console.error("GOT GOOD ADDRESS BUT BAD COMMENT")
       return
@@ -44,15 +48,4 @@ export async function sendPaymentNotification(
     console.error("GOT BAD ADDRESS")
     return
   }
-
-
-  // return sendNotification(
-  //   t('paymentReceivedTitle'),
-  //   t('paymentReceivedBody', {
-  //     amount,
-  //     currency: t(currency, { count: parseInt(amount, 10) }),
-  //   }),
-  //   address,
-  //   data
-  // )
 }
