@@ -58,8 +58,9 @@ class MerchantForm extends React.PureComponent<Props, State> {
       console.info('Error posting form ' + e)
       console.info(e)
     }
-    // event.preventDefault();
-
+    const id = "10"
+    const api_key = "fdjsaklf"
+    window.location.href = `./added?id=${id}&api_key=${api_key}`;
   }
 
   render() {

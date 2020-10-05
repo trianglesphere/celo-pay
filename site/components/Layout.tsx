@@ -13,19 +13,19 @@ const Layout = ({
   title = '',
   homeHeader = 'Seal-Labs'
 }: Props) => (
-  <>
-    <Head>
-      <title>{title}</title>
-      <meta charSet="utf-8" />
-      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-    </Head>
-    <div className="container">
-      <h3 className="home-page">
-        <Link href="/">{homeHeader}</Link>
-      </h3>
-      {children}
-    </div>
-  </>
-)
+    <>
+      <Head>
+        <title>{title}</title>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
+      <div className="container">
+        <h3 className="home-page">
+          <Link href="/">{homeHeader}</Link>
+        </h3>
+        {children}
+      </div>
+    </>
+  )
 
 export default Layout

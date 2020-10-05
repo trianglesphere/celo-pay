@@ -7,13 +7,13 @@ import MerchantUpdateForm from '../components/MerchantUpdateForm'
 
 const IndexPage: NextPage = () => {
   return (
-    <Layout homeHeader="Seal-Labs Merchant Portal">
-    <div className="page-container">
-      <h1 style={{width:'24ch'}} >Add Merchant </h1>
-      <MerchantForm />
-      <MerchantUpdateForm />
-    </div>
-  </Layout>
+      <Layout>
+        <div className="page-container">
+          <h1> Seal Labs Merchant Portal </h1>
+          <h2><a href="./add">Create New Merchant </a></h2>
+          <h2><a href="./update">Update Merchant Address</a></h2>
+        </div>
+      </Layout>
   )
 }
 
