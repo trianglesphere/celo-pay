@@ -1,0 +1,22 @@
+{
+  "name": "celo-pay-site",
+  "version": "0.0.1",
+  "description": "Full-stack TypeScript example using Next.js and react-stripe-js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "next": "latest",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  },
+  "devDependencies": {
+    "@types/next": "^9.0.0",
+    "@types/node": "^13.1.2",
+    "@types/react": "^16.9.17",
+    "typescript": "^3.7.4"
+  }
+}
