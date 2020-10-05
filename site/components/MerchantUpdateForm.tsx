@@ -27,18 +27,18 @@ function validateAddress(address: string) {
 
 interface State {
   address: string
-  name: string
+  id: string
 }
 
-class MerchantForm extends React.PureComponent<Props, State> {
+class MerchantUpdateForm extends React.PureComponent<Props, State> {
   state: State = {
     address: '',
-    name: '',
+    id: '',
   }
 
-  handleName = ({ currentTarget }: React.SyntheticEvent<HTMLInputElement>) => {
+  handleId = ({ currentTarget }: React.SyntheticEvent<HTMLInputElement>) => {
     const { value } = currentTarget
-    this.setState({ name: value });
+    this.setState({ id: value });
   }
 
   handleAddress = ({ currentTarget }: React.SyntheticEvent<HTMLInputElement>) => {
@@ -52,7 +52,7 @@ class MerchantForm extends React.PureComponent<Props, State> {
     }
     let res
     try {
-      res = await postForm(merchant_url, { "address": this.state.address, "name": this.state.name })
+      res = await postForm(merchant_url + '/' + this.state.id, { "address": this.state.address })
       console.info(res)
     } catch (e) {
       console.info('Error posting form ' + e)
@@ -66,15 +66,15 @@ class MerchantForm extends React.PureComponent<Props, State> {
     return (
       <form onSubmit={this.handleSubmit} className="FormInput">
         <label>
-          Merchant Name
-          <input type="text" value={this.state.name} onChange={this.handleName} />
+          Merchant Id
+          <input type="text" value={this.state.id} onChange={this.handleId} />
         </label>
         <label>
-          Address
+          New Address
           <input type="text" value={this.state.address} onChange={this.handleAddress} placeholder="0x0000 1111 2222 3333 4444" />
         </label>
-        <button type="submit" className="cart-style-background" disabled={!validateAddress(this.state.address) || this.state.name === ''}>
-          Submit
+        <button type="submit" className="cart-style-background" disabled={!validateAddress(this.state.address) || this.state.id === ''}>
+          Update Address
         </button>
       </form>
     );
@@ -82,4 +82,4 @@ class MerchantForm extends React.PureComponent<Props, State> {
 }
 
 
-export default MerchantForm
+export default MerchantUpdateForm
