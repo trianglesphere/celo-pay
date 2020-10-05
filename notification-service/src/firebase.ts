@@ -13,6 +13,8 @@ export function getLastBlockNotified() {
 
 export function setLastBlockNotified(newBlock: number) {
   if (newBlock <= lastBlockNotified) {
+    console.log(`newBlock: ${newBlock}`)
+    console.log(`lastBlockNotified: ${lastBlockNotified}`)
     console.debug('Block number less than latest, skipping latestBlock update.')
     return
   }
@@ -32,18 +34,20 @@ export async function sendCeloPayNotification(
   currency: Currencies,
   data: { [key: string]: string }
 ) {
-  console.error(`GOT SEND PAYMENT NOTIFICATION. address: ${address}. comment: ${data.comment}`)
+  const comment = data['comment']
+  console.error(`GOT SEND PAYMENT NOTIFICATION. address: ${address}. comment: ${comment}`)
   // Lookup address, then waiting set
   // const UIDS = localdb.get(address)
-  console.log('watching localdb')
   console.log(localdb)
   if (address in localdb) {
     console.log(localdb.address)
-    if (data.comment && addressHasComment(localdb[address], data.comment)) {
+    if (comment && addressHasComment(localdb[address], comment)) {
       if (!localdb[address]['done']){
         console.error("GOT GOOD COMMENT TO SEND INFO ON")
         // Send webhook here
+
         localdb[address]['done'] = true
+        return
       }
     } else {
       console.error("GOT GOOD ADDRESS BUT BAD COMMENT")

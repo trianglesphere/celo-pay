@@ -108,6 +108,7 @@ export function notifyForNewTransfers(
       blockNumber: String(t.blockNumber),
       timestamp: String(t.timestamp),
     }
+    console.log(`notificationData is ${JSON.stringify(notificationData)}`)
     const result: Promise<void> = sendCeloPayNotification(
       t.recipient,
       convertWeiValue(t.value),
