@@ -39,21 +39,22 @@ app.get('/status', (req: any, res: any) => {
   })
 })
 app.get('/watch_account', (req: any, res: any) => {
-  if (!(req.query.address in localdb) ){
+  const address = req.query.address.toLowerCase()
+  if (!(address in localdb) ){
     
-    localdb[req.query.address] = [{
+    localdb[address] = [{
       comment:req.query.comment, 
       done:false
     }]
-    res.status(200).json({status:'ok', ...req.query})
+    res.status(200).json({...req.query, status:'ok', address:address})
     return
   }
-  if (!addressHasComment(localdb[req.query.address], req.query.comment)){
-    localdb[req.query.address].push({
+  if (!addressHasComment(localdb[address], req.query.comment)){
+    localdb[address].push({
       comment:req.query.comment, 
       done:false
     })
-    res.status(200).json({status:'ok', ...req.query})
+    res.status(200).json({...req.query, status:'ok', address:address,})
     return
   } else {
     res.status(200).json({status:'Order already registered'})

@@ -1,5 +1,6 @@
 import { Currencies } from './blockscout/transfers'
 import { addressHasComment, localdb } from './database'
+import fetch from 'node-fetch'
 
 let lastBlockNotified: number = -1
 
@@ -44,9 +45,20 @@ export async function sendCeloPayNotification(
     if (comment && addressHasComment(localdb[address], comment)) {
       if (!localdb[address]['done']){
         console.error("GOT GOOD COMMENT TO SEND INFO ON")
+        
         // Send webhook here
 
+        await fetch(`https://py3txmh6a3.execute-api.eu-central-1.amazonaws.com/dev/charges/${comment}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({"status": "COMPLETED"})
+        });
+
+
         localdb[address]['done'] = true
+
         return
       }
     } else {
