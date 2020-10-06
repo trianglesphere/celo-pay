@@ -50,6 +50,7 @@ class MerchantUpdateForm extends React.PureComponent<Props, State> {
     if (!validateAddress(this.state.address)) {
       alert(this.state.address + ' is not a valid address')
     }
+    event.preventDefault()
     let res
     try {
       res = await postForm(merchant_url + '/' + this.state.id, { "address": this.state.address })

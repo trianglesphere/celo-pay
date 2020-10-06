@@ -11,11 +11,6 @@ export function postForm(route: string, formData: FormState) {
   return fetch(route, {
     method: 'POST',
     headers: {
-      'Access-Control-Request-Headers': 'Content-Type',
-      // "Access-Control-Allow-Headers": "Content-Type",
-      // "Access-Control-Allow-Origin": "*",
-      "Access-Control-Request-Methods": "POST",
-
       'Content-Type': 'application/json',
       'X-API-KEY': api_key,
     },
