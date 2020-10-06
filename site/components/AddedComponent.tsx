@@ -26,11 +26,11 @@ class AddedComponent extends React.Component<Props, State> {
 
       console.info(params)
       if (params['id']) {
-        this.state.id = params['id']
+        this.state.id = params['id'] as string
       }
       if (params['api_key']) {
         console.info("set api key")
-        this.state.api_key = params['api_key']
+        this.state.api_key = params['api_key'] as string
       }
     }
   }

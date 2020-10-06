@@ -11,6 +11,11 @@ export function postForm(route: string, formData: FormState) {
   return fetch(route, {
     method: 'POST',
     headers: {
+      'Access-Control-Request-Headers': 'Content-Type',
+      // "Access-Control-Allow-Headers": "Content-Type",
+      // "Access-Control-Allow-Origin": "*",
+      "Access-Control-Request-Methods": "POST",
+
       'Content-Type': 'application/json',
       'X-API-KEY': api_key,
     },
@@ -30,7 +35,7 @@ interface State {
   name: string
 }
 
-class MerchantForm extends React.PureComponent<Props, State> {
+class MerchantForm extends React.Component<Props, State> {
   state: State = {
     address: '',
     name: '',
@@ -50,17 +55,20 @@ class MerchantForm extends React.PureComponent<Props, State> {
     if (!validateAddress(this.state.address)) {
       alert(this.state.address + ' is not a valid address')
     }
+    event.preventDefault()
     let res
     try {
       res = await postForm(merchant_url, { "address": this.state.address, "name": this.state.name })
       console.info(res)
+      // TODO: Change the window to this url to display the id & api key for the merchant_url
+      // window.location.href = `./added?id=${id}&api_key=${api_key}`;
     } catch (e) {
       console.info('Error posting form ' + e)
       console.info(e)
     }
-    const id = "10"
-    const api_key = "fdjsaklf"
-    window.location.href = `./added?id=${id}&api_key=${api_key}`;
+    // const id = "10"
+    // const api_key = "fdjsaklf"
+    // window.location.href = `./added?id=${id}&api_key=${api_key}`;
   }
 
   render() {
