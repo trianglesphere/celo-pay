@@ -46,6 +46,7 @@ app.get('/watch_account', (req: any, res: any) => {
       comment:req.query.comment, 
       done:false
     }]
+    console.log(localdb)
     res.status(200).json({...req.query, status:'ok', address:address})
     return
   }
@@ -54,9 +55,11 @@ app.get('/watch_account', (req: any, res: any) => {
       comment:req.query.comment, 
       done:false
     })
+    console.log(localdb)
     res.status(200).json({...req.query, status:'ok', address:address,})
     return
   } else {
+    console.log(localdb)
     res.status(200).json({status:'Order already registered'})
   }
 })
