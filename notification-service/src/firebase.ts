@@ -63,10 +63,32 @@ export async function sendCeloPayNotification(
       }
     } else {
       console.error("GOT GOOD ADDRESS BUT BAD COMMENT")
-      return
+      await fetch(`https://py3txmh6a3.execute-api.eu-central-1.amazonaws.com/dev/charges/${comment}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({"status": "COMPLETED"})
+        });
+
+
+        localdb[address]['done'] = true
+
+        return
     }
   } else {
     console.error("GOT BAD ADDRESS")
-    return
+    await fetch(`https://py3txmh6a3.execute-api.eu-central-1.amazonaws.com/dev/charges/${comment}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({"status": "COMPLETED"})
+        });
+
+
+        localdb[address]['done'] = true
+
+        return
   }
 }
