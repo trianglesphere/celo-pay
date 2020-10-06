@@ -51,19 +51,20 @@ class MerchantForm extends React.Component<Props, State> {
       alert(this.state.address + ' is not a valid address')
     }
     event.preventDefault()
-    let res
+    let res: Response
     try {
       res = await postForm(merchant_url, { "address": this.state.address, "name": this.state.name })
       console.info(res)
-      // TODO: Change the window to this url to display the id & api key for the merchant_url
-      // window.location.href = `./added?id=${id}&api_key=${api_key}`;
+      const json = await res.json()
+      console.info(json)
+      const id = json['id'] || ''
+      const api_key = json['api_key'] || ''
+
+      window.location.href = `./added?id=${id}&api_key=${api_key}`;
     } catch (e) {
       console.info('Error posting form ' + e)
       console.info(e)
     }
-    // const id = "10"
-    // const api_key = "fdjsaklf"
-    // window.location.href = `./added?id=${id}&api_key=${api_key}`;
   }
 
   render() {
